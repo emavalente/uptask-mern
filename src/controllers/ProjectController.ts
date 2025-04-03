@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { ProjectType } from "../models/Project.model";
 import Project from "../models/Project.model";
 
@@ -12,7 +12,7 @@ export class ProjectController {
       await project.save();
       res.send("El proyecto a sido creado correctamente");
     } catch (error) {
-      console.log(error.message);
+      res.status(500).json({ error: "Hubo un error" });
     }
   };
 
@@ -21,7 +21,7 @@ export class ProjectController {
       const projects = await Project.find({});
       res.json(projects);
     } catch (error) {
-      console.log(error.message);
+      res.status(500).json({ error: "Hubo un error" });
     }
   };
 
@@ -36,7 +36,7 @@ export class ProjectController {
       }
       res.json(project);
     } catch (error) {
-      console.log(error.message);
+      res.status(500).json({ error: "Hubo un error" });
     }
   };
 
@@ -52,7 +52,7 @@ export class ProjectController {
       await project.save();
       res.send("El proyecto a sido actualizado correctamente");
     } catch (error) {
-      console.log(error.message);
+      res.status(500).json({ error: "Hubo un error" });
     }
   };
 
@@ -67,7 +67,7 @@ export class ProjectController {
       }
       res.send("El proyecto a sido borrado correctamente");
     } catch (error) {
-      console.log(error.message);
+      res.status(500).json({ error: "Hubo un error" });
     }
   };
 }
