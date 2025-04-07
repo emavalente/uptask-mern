@@ -20,14 +20,28 @@ export class TaskController {
 
   static getProjectTasks = async (req: Request, res: Response) => {
     try {
-      // Sabiendo que cada tarea refiere a un projectId, traemos todo donde projectId exista.
-      const tasks = await Task.find({ project: req.project.id });
+      // Sabiendo que cada tarea refiere a un projectId, traemos todas donde projectId exista.
+      const tasks = await Task.find({ project: req.project.id }).populate("project");
       res.json(tasks);
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
     }
   };
-  static getTaskById = async (req: Request, res: Response) => {};
+
+  static getTaskById = async (req: Request, res: Response) => {
+    try {
+      const { taskId } = req.params;
+      const task = await Task.findById(taskId);
+      if (!task) {
+        const error = new Error("La tarea no existe");
+        res.status(404).json({ error: error.message });
+        return;
+      }
+      res.json(task);
+    } catch (error) {
+      res.status(500).json({ error: "Hubo un error" });
+    }
+  };
   static updateTask = async (req: Request, res: Response) => {};
   static deleteTask = async (req: Request, res: Response) => {};
 }

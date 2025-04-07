@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 
-// Este middleware se encarga de realizar la acción correspondiente si se detectan errores de validación.
+// Este middleware se encarga de realizar una acción si se detectan errores de validación de los datos ingresados desde el cliente.
 export const handleInputErrors = (req: Request, res: Response, next: NextFunction) => {
   let errors = validationResult(req);
 
