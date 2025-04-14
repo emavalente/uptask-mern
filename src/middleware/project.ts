@@ -10,10 +10,10 @@ declare global {
   }
 }
 
-// Revisa si un proyecto existe o no.
-export const validateProjectExists = async (req: Request, res: Response, next: NextFunction) => {
+// Revisa si un proyecto pasado por URL existe o no.
+export const ProjectExists = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Tomamos el id de proyecto de la url y verificamos que exista.
+    // Tomamos el id del proyecto en la url y verificamos que exista.
     const { projectId } = req.params;
     const project = await Project.findById(projectId);
 
@@ -24,6 +24,7 @@ export const validateProjectExists = async (req: Request, res: Response, next: N
     }
 
     // Añadimos una propiedad agena al Request para pasar el proyecto.
+    // Necesitamos hacer esto para que el middleware siguiente pueda capturar este valor también.
     req.project = project;
     next();
   } catch (error) {

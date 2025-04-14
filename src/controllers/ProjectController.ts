@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { ProjectType } from "../models/Project.model";
 import Project from "../models/Project.model";
 
 export class ProjectController {
@@ -26,30 +25,23 @@ export class ProjectController {
   };
 
   static getProjectById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const { projectId } = req.params;
     try {
-      const project = await Project.findById(id).populate("tasks");
-
-      if (!project) {
-        const error = new Error("Proyecto no encontrado");
-        res.status(404).json({ error: error.message });
-      }
-      res.json(project);
+      req.project.tasks = await req.project.populate("tasks");
+      res.json(req.project);
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
     }
   };
 
   static updateProject = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
     try {
-      const project = await Project.findByIdAndUpdate(id, req.body);
-      if (!project) {
-        const error = new Error("Proyecto no encontrado");
-        res.status(404).json({ error: error.message });
-      }
-      await project.save();
+      req.project.projectName = req.body.projectName;
+      req.project.clientName = req.body.clientName;
+      req.project.description = req.body.description;
+
+      await req.project.save();
+
       res.send("El proyecto a sido actualizado correctamente");
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
@@ -57,14 +49,8 @@ export class ProjectController {
   };
 
   static deleteProject = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
     try {
-      const project = await Project.findByIdAndDelete(id);
-      if (!project) {
-        const error = new Error("Proyecto no encontrado");
-        res.status(404).json({ error: error.message });
-      }
+      await req.project.deleteOne();
       res.send("El proyecto a sido borrado correctamente");
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });

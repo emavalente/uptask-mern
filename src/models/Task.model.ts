@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { ProjectType } from "./Project.model";
 
-// Declaro un Diccionario.
+// Declaro un Diccionario con los valores de estado de una tarea.
 const taskStatus = {
   PENDING: "pending",
   ON_HOLD: "onHold",
