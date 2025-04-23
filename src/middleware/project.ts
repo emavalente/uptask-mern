@@ -28,6 +28,6 @@ export const ProjectExists = async (req: Request, res: Response, next: NextFunct
     req.project = project;
     next();
   } catch (error) {
-    res.status(500).json({ error: "Hubo un error" });
+    console.log(error);
   }
 };

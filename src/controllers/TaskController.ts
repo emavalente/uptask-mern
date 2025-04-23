@@ -14,7 +14,7 @@ export class TaskController {
       await Promise.allSettled([task.save(), req.project.save()]);
       res.send("La tarea a sido creada correctamente");
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+      res.status(500).json({ error: "Error con el servidor" });
     }
   };
 
@@ -24,7 +24,7 @@ export class TaskController {
       const tasks = await Task.find({ project: req.project.id }).populate("project");
       res.json(tasks);
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+      res.status(500).json({ error: "Error con el servidor" });
     }
   };
 
@@ -33,7 +33,7 @@ export class TaskController {
       // Retorno la tarea encontrada que esta viniendo en la request.
       res.json(req.task);
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+      res.status(500).json({ error: "Error con el servidor" });
     }
   };
 
@@ -45,7 +45,7 @@ export class TaskController {
 
       res.send("Tarea actualizada correctamente");
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+      res.status(500).json({ error: "Error con el servidor" });
     }
   };
 
@@ -57,7 +57,7 @@ export class TaskController {
       await Promise.allSettled([req.task.deleteOne(), req.project.save()]);
       res.send("Tarea eliminada correctamente");
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+      res.status(500).json({ error: "Error con el servidor" });
     }
   };
 
@@ -72,7 +72,7 @@ export class TaskController {
 
       res.send("Tarea actualizada correctamente");
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+      res.status(500).json({ error: "Error con el servidor" });
     }
   };
 }
